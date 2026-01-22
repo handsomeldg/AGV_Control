@@ -57,8 +57,10 @@
     <ClInclude Include="AGV.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Controller.h">
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="Controller.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
+    </QtMoc>
   </ItemGroup>
 </Project>

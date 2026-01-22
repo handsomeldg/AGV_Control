@@ -103,7 +103,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AGV.h" />
-    <ClInclude Include="Controller.h" />
+    <QtMoc Include="Controller.h" />
     <ClInclude Include="Map.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
