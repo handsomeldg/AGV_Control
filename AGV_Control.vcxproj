@@ -102,7 +102,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AGV.h" />
+    <QtMoc Include="AGV.h" />
     <QtMoc Include="Controller.h" />
     <ClInclude Include="Map.h" />
   </ItemGroup>

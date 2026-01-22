@@ -7,6 +7,8 @@
 #include <QGridLayout>
 #include <QFrame>
 #include "Controller.h"
+#include <QLabel>
+
 class AGV_Control : public QWidget
 {
     Q_OBJECT
@@ -27,6 +29,9 @@ signals:
     void AGV_left();
     void AGV_right();
 private:
+    double posX = 0, posY = 0;
+    QLabel* label_x;
+    QLabel* label_y;
     Ui::AGV_ControlClass ui;
 
     QPushButton * btn_up;
@@ -34,6 +39,7 @@ private:
     QPushButton * btn_left;
     QPushButton * btn_right;
     // 右侧按键布局
+    QVBoxLayout* pos_layout;
     QGridLayout* btn_layout;
     // 右侧布局
     QVBoxLayout* right_layout;
@@ -41,5 +47,7 @@ private:
     QHBoxLayout* main_layout;
     QFrame* display_area;
     Controller* m_controller;
+
+    QTimer* m_timer_position;
 };
 

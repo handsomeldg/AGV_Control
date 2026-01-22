@@ -54,12 +54,12 @@
     <ClInclude Include="Map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AGV.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Controller.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="AGV.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
