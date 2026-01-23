@@ -16,6 +16,7 @@ public:
     // ÐÅºÅ´¥·¢
     void Signal();
 
+
     void Position_update(double* x, double* y);
 public slots:
     void AGV_up();
