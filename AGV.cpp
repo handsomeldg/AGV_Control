@@ -3,8 +3,8 @@
 AGV::AGV(QVector<QVector<Map::Cell>> maze,QObject* parent)
 {
 	m_timer = new QTimer(this);
-	x_pos = 0;
-	y_pos = 0;
+	x_pos = R;
+	y_pos = R;
 	x_speed = 0;
 	y_speed = 0;
 	m_maze = maze;
@@ -26,7 +26,8 @@ AGV::AGV(QVector<QVector<Map::Cell>> maze,QObject* parent)
         {
             double probeX = newX + R;     // 前探点
             int nextCellX = static_cast<int>(probeX / CELL);
-
+            double probeY = newY + R;
+            int nextCellY = static_cast<int>(probeY / CELL);
             if (nextCellX != curCellX)    // 即将跨格子
             {
                 if (m_maze[curCellY][curCellX].wallRight)

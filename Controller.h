@@ -25,6 +25,10 @@ public slots:
     void AGV_stop();
 
 private:
+    // 广度优先寻找最短路径
+    void BFS_find_shortest_path();
+    // 深度优先最速寻找路径
+    void DFS_find_shortest_path();
     AGV *m_agv;
     QVector<QVector<Map::Cell>> m_maze;
 };
