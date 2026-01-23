@@ -94,6 +94,7 @@
   <ItemGroup>
     <ClCompile Include="AGV.cpp" />
     <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="Display_Area.cpp" />
     <ClCompile Include="Map.cpp" />
     <QtRcc Include="AGV_Control.qrc" />
     <QtUic Include="AGV_Control.ui" />
@@ -104,7 +105,8 @@
   <ItemGroup>
     <QtMoc Include="AGV.h" />
     <QtMoc Include="Controller.h" />
-    <ClInclude Include="Map.h" />
+    <QtMoc Include="Display_Area.h" />
+    <QtMoc Include="Map.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

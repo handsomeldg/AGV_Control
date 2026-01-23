@@ -1,7 +1,8 @@
 #include "Controller.h"
 
-Controller::Controller(QObject* parent)
+Controller::Controller(QVector<QVector<Map::Cell>> maze, QObject* parent)
 {
+	m_maze = maze;
 	Init();
 	
 }
@@ -9,22 +10,22 @@ Controller::Controller(QObject* parent)
 void Controller::AGV_up()
 {
 	qDebug() << "AGV up";
-	m_agv->move(-0.01,0);
+	m_agv->move(0, -0.1);
 }
 void Controller::AGV_down()
 {
 	qDebug() << "AGV down";
-	m_agv->move(0.01,0);
+	m_agv->move(0,0.1);
 }
 void Controller::AGV_left()
 {
 	qDebug() << "AGV left";
-	m_agv->move(0,-0.01);
+	m_agv->move(-0.1, 0);
 }
 void Controller::AGV_right()
 {
 	qDebug() << "AGV right";
-	m_agv->move(0, 0.01);
+	m_agv->move(0.1,0);
 }
 void Controller::AGV_stop()
 {
@@ -32,10 +33,17 @@ void Controller::AGV_stop()
 	m_agv->stop();
 }
 
+void Controller::Position_update(double *x, double *y)
+{
+	QPointF pos = m_agv->position();
+	*x = pos.x();
+	*y = pos.y();
+}
+
 // ³õÊ¼»¯º¯Êý
 void Controller::Init()
 {
-	m_agv = new AGV(this);
+	m_agv = new AGV(m_maze, this);
 }
 Controller::~Controller()
 {

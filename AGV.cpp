@@ -1,23 +1,89 @@
 #include "AGV.h"
-
-AGV::AGV(QObject* parent)
+#include "QDebug"
+AGV::AGV(QVector<QVector<Map::Cell>> maze,QObject* parent)
 {
 	m_timer = new QTimer(this);
 	x_pos = 0;
 	y_pos = 0;
 	x_speed = 0;
 	y_speed = 0;
-
+	m_maze = maze;
 	connect(m_timer, &QTimer::timeout, this, [=]() {
 		double newX = x_pos + x_speed;
 		double newY = y_pos + y_speed;
-
 		if (newX < xmin || newX > xmax ||
 			newY < ymin || newY > ymax)
 		{
 			m_timer->stop();
 			return;
 		}
+        // 当前所在格子（不是目标格子！）
+        int curCellX = static_cast<int>(x_pos / CELL);
+        int curCellY = static_cast<int>(y_pos / CELL);
+
+        // —— 2. 向右 ——
+        if (x_speed > 0)
+        {
+            double probeX = newX + R;     // 前探点
+            int nextCellX = static_cast<int>(probeX / CELL);
+
+            if (nextCellX != curCellX)    // 即将跨格子
+            {
+                if (m_maze[curCellY][curCellX].wallRight)
+                {
+                    m_timer->stop();
+                    return;
+                }
+            }
+        }
+
+        // —— 3. 向左 ——
+        else if (x_speed < 0)
+        {
+            double probeX = newX - R;
+            int nextCellX = static_cast<int>(probeX / CELL);
+
+            if (nextCellX != curCellX)
+            {
+                if (m_maze[curCellY][curCellX].wallLeft)
+                {
+                    m_timer->stop();
+                    return;
+                }
+            }
+        }
+
+        // —— 4. 向下 ——
+        if (y_speed > 0)
+        {
+            double probeY = newY + R;
+            int nextCellY = static_cast<int>(probeY / CELL);
+
+            if (nextCellY != curCellY)
+            {
+                if (m_maze[curCellY][curCellX].wallDown)
+                {
+                    m_timer->stop();
+                    return;
+                }
+            }
+        }
+
+        // —— 5. 向上 ——
+        else if (y_speed < 0)
+        {
+            double probeY = newY - R;
+            int nextCellY = static_cast<int>(probeY / CELL);
+
+            if (nextCellY != curCellY)
+            {
+                if (m_maze[curCellY][curCellX].wallUp)
+                {
+                    m_timer->stop();
+                    return;
+                }
+            }
+        }
 		x_pos = newX;
 		y_pos = newY;
 		});

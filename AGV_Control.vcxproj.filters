@@ -49,17 +49,21 @@
     <ClCompile Include="Controller.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Map.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClCompile Include="Display_Area.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Controller.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="AGV.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="Display_Area.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="Map.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

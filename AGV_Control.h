@@ -8,6 +8,7 @@
 #include <QFrame>
 #include "Controller.h"
 #include <QLabel>
+#include "Display_Area.h"
 
 class AGV_Control : public QWidget
 {
@@ -45,7 +46,7 @@ private:
     QVBoxLayout* right_layout;
     // Ö÷²¼¾Ö
     QHBoxLayout* main_layout;
-    QFrame* display_area;
+    Display_Area* display_area;
     Controller* m_controller;
 
     QTimer* m_timer_position;

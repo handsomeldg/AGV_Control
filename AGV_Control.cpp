@@ -23,13 +23,13 @@ void AGV_Control::Init()
     // 使用网格布局（GridLayout）
     btn_layout = new QGridLayout();
     pos_layout = new QVBoxLayout();
-    display_area = new QFrame(this);
+    display_area = new Display_Area(this);
 
     right_layout = new QVBoxLayout();
 
     main_layout = new QHBoxLayout(this);
 
-    m_controller = new Controller(this);
+    m_controller = new Controller(display_area->getMaze(), this);
 }
 
 // 布局函数
@@ -70,14 +70,12 @@ void AGV_Control::Layout()
     
     // --- 把按钮放到右下角 ---
     right_layout->addLayout(pos_layout);
-    right_layout->addStretch();       // 上方空白撑开
+    right_layout->addStretch();       // 中间空白撑开
     right_layout->addLayout(btn_layout);
     right_layout->setAlignment(btn_layout, Qt::AlignRight | Qt::AlignBottom);
 
 
-    display_area->setFrameShape(QFrame::Box);  // 可见边框
-    display_area->setStyleSheet("background-color: white;"); // 白色背景
-    display_area->setMinimumSize(400, 300);    // 默认大小
+    display_area->setMinimumSize(400, 300);
 
     // --- 主布局，显示界面 + 右边按钮 ---
     
@@ -107,16 +105,16 @@ void AGV_Control::Signal()
     connect(btn_right, &QPushButton::released, m_controller, &Controller::AGV_stop);
 
     connect(m_timer_position, &QTimer::timeout, this, [=]() {
-        QPointF pos = m_controller->Position_update();
-        label_x->setText("X: " + QString::number(pos.x(), 'f', 2));
-        label_y->setText("Y: " + QString::number(pos.y(), 'f', 2));
+        m_controller->Position_update(&posX, &posY);
+        label_x->setText("X: " + QString::number(posX, 'f', 2));
+        label_y->setText("Y: " + QString::number(posY, 'f', 2));
+        display_area->setAGVPosition(&posX, &posY);
         });
+
+   // connect(m_controller, &Controller::Position_update, display_area, &Display_Area::setAGVPosition);
 }
 
-QPointF Controller::Position_update(void)
-{
-    return m_agv->position();
-}
+
 
 AGV_Control::~AGV_Control()
 {}

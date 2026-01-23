@@ -3,19 +3,20 @@
 #include <Qdebug>
 #include "AGV.h"
 #include <QTimer>
+#include "Map.h"
 class Controller : public QObject
 {
     Q_OBJECT
 
 public:
-    Controller(QObject* parent = nullptr);
+    Controller(QVector<QVector<Map::Cell>> maze,QObject* parent = nullptr);
     ~Controller();
     // 初始化函数
     void Init();
     // 信号触发
     void Signal();
 
-    QPointF Position_update(void);
+    void Position_update(double* x, double* y);
 public slots:
     void AGV_up();
     void AGV_down();
@@ -25,6 +26,6 @@ public slots:
 
 private:
     AGV *m_agv;
-    
+    QVector<QVector<Map::Cell>> m_maze;
 };
 
