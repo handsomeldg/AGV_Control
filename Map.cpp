@@ -9,22 +9,21 @@ Map::Map(int width, int height, QVector<QVector<Cell>> map,QObject* parent)
     m_width = width;
     m_height = height;
     m_map = map;
-    // 将所有墙初始化为true，有障碍物
-    for (int i = 0; i < 10; i++)
-    {
-        for (int j = 0; j < 10; j++)
-        {
-            m_map[i][j].wallUp = true;
-            m_map[i][j].wallDown = true;
-            m_map[i][j].wallLeft = true;
-            m_map[i][j].wallRight = true;
-        }
-    }
 }
 
 // 生成随机地图
 QVector<QVector<Map::Cell>> Map::generate()
 {
+    for (int y = 0; y < 10; ++y)
+    {
+        for (int x = 0; x < 10; ++x)
+        {
+            m_map[y][x].wallUp = true;
+            m_map[y][x].wallDown = true;
+            m_map[y][x].wallLeft = true;
+            m_map[y][x].wallRight = true;
+        }
+    }
     QVector<QVector<bool>> visited(m_width, QVector<bool>(m_height, false));
     carve(0, 0, visited);
     return m_map;

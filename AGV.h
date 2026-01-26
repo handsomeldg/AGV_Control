@@ -14,8 +14,10 @@ public:
     void stop();
     // 读取当前位置
     QPointF position() const;
-
-
+    // 设置目标位置
+    void setPosition(double x, double y);
+    // 初始化小车（回原）
+    void reset(QVector<QVector<Map::Cell>> maze);
 private:
     QTimer* m_timer;
     double x_pos, y_pos, x_speed, y_speed;

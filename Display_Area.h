@@ -10,12 +10,15 @@ public slots:
     void setAGVPosition(double* x, double* y);
     void setMaze(const QVector<QVector<Map::Cell>>& maze);
     QVector<QVector<Map::Cell>> getMaze();
+    // 生成随机地图
+    void generateMaze();
+    
 protected:
     void paintEvent(QPaintEvent* event) override;
 
 private:
     QPointF m_pos;   // AGV 当前位置
-    Map *m_map;
+    Map* m_map;
     QVector<QVector<Map::Cell>> maze_plan;
 };
 

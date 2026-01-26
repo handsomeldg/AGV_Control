@@ -1,5 +1,5 @@
 #include "AGV_Control.h"
-
+#include <QtConcurrent/QtConcurrent>
 AGV_Control::AGV_Control(QWidget *parent)
     : QWidget(parent)
 {
@@ -16,6 +16,10 @@ void AGV_Control::Init()
     m_timer_position = new QTimer(this);
     label_x = new QLabel("X: 0.0", this);
     label_y = new QLabel("Y: 0.0", this);
+    btn_start = new QPushButton("start");
+    btn_DFS = new QPushButton("DFS");
+    btn_BFS = new QPushButton("BFS");
+    btn_back = new QPushButton("back");
     btn_up = new QPushButton("up");
     btn_down = new QPushButton("down");
     btn_left = new QPushButton("left");
@@ -49,6 +53,10 @@ void AGV_Control::Layout()
     btn_down->setFixedSize(btnSize);
     btn_left->setFixedSize(btnSize);
     btn_right->setFixedSize(btnSize);
+    btn_start->setFixedSize(btnSize);
+    btn_DFS->setFixedSize(btnSize);
+    btn_BFS->setFixedSize(btnSize);
+    btn_back->setFixedSize(btnSize);
     // 按方向排列：
     // (0,1) 上
     // (1,0) 左  (1,1) 空格 (1,2) 右
@@ -60,9 +68,13 @@ void AGV_Control::Layout()
     pos_layout->setSpacing(4);
     pos_layout->setContentsMargins(0, 0, 0, 0);
     btn_layout->addWidget(btn_up, 0, 1);
+    btn_layout->addWidget(btn_start, 1, 1);
+    btn_layout->addWidget(btn_DFS, 0, 0);
+    btn_layout->addWidget(btn_BFS, 0, 2);
     btn_layout->addWidget(btn_left, 1, 0);
     btn_layout->addWidget(btn_right, 1, 2);
     btn_layout->addWidget(btn_down, 2, 1);
+    btn_layout->addWidget(btn_back, 2, 0);
     
     btn_layout->setHorizontalSpacing(5);
     btn_layout->setVerticalSpacing(5);
@@ -92,6 +104,25 @@ void AGV_Control::Layout()
 // 信号触发
 void AGV_Control::Signal()
 {
+    connect(btn_back, &QPushButton::clicked, this, [=]() {
+        auto maze = display_area->getMaze();
+        m_controller->AGV_back(maze); 
+        });
+    connect(btn_start, &QPushButton::clicked, this, [=]() {
+        QtConcurrent::run([=]() {
+            display_area->generateMaze();
+            ;} );
+        auto maze = display_area->getMaze();
+        m_controller->AGV_back(maze); }
+        );
+    connect(btn_BFS, &QPushButton::clicked, this, [=]() {
+        QtConcurrent::run([=]() {m_controller->BFS_find_shortest_path(); }
+        ); }
+    );
+    connect(btn_DFS, &QPushButton::clicked, this, [=]() {
+        QtConcurrent::run([=]() {m_controller->DFS_find_shortest_path(); }
+        ); }
+    );
     connect(btn_up, &QPushButton::pressed,m_controller, &Controller::AGV_up);
     connect(btn_up, &QPushButton::released, m_controller, &Controller::AGV_stop);
 

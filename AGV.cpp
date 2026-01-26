@@ -95,7 +95,19 @@ void AGV::move(double xspeed, double yspeed)
 	x_speed = xspeed;
 	y_speed = yspeed;
 	m_timer->start(1);
+}
 
+// 初始化小车
+void AGV::reset(QVector<QVector<Map::Cell>> maze)
+{
+	m_maze = maze;
+}
+
+// 设置目标位置
+void AGV::setPosition(double x, double y)
+{
+    x_pos = x;
+    y_pos = y;
 }
 // 停止移动
 void AGV::stop()

@@ -39,6 +39,10 @@ private:
     QPushButton * btn_down;
     QPushButton * btn_left;
     QPushButton * btn_right;
+    QPushButton* btn_start;
+    QPushButton* btn_DFS;
+    QPushButton* btn_BFS;
+    QPushButton* btn_back;
     // ÓÒ²à°´¼ü²¼¾Ö
     QVBoxLayout* pos_layout;
     QGridLayout* btn_layout;
