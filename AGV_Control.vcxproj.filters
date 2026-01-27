@@ -52,6 +52,9 @@
     <ClCompile Include="Display_Area.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Common.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Controller.h">
@@ -64,6 +67,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="Map.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="Common.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

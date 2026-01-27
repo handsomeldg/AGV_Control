@@ -3,8 +3,8 @@
 AGV::AGV(QVector<QVector<Map::Cell>> maze,QObject* parent)
 {
 	m_timer = new QTimer(this);
-	x_pos = R;
-	y_pos = R;
+	x_pos = 5;
+	y_pos = 5;
 	x_speed = 0;
 	y_speed = 0;
 	m_maze = maze;
@@ -115,9 +115,9 @@ void AGV::stop()
 	m_timer->stop();
 }
 // 读取当前位置
-QPointF AGV::position() const
+QPoint AGV::position() const
 {
-	return QPointF(x_pos, y_pos);
+	return QPoint(x_pos, y_pos);
 }
 AGV::~AGV()
 {

@@ -93,6 +93,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AGV.cpp" />
+    <ClCompile Include="Common.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Display_Area.cpp" />
     <ClCompile Include="Map.cpp" />
@@ -107,6 +108,9 @@
     <QtMoc Include="Controller.h" />
     <QtMoc Include="Display_Area.h" />
     <QtMoc Include="Map.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="Common.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

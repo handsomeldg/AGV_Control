@@ -29,6 +29,7 @@ signals:
     void AGV_down();
     void AGV_left();
     void AGV_right();
+    void pathReady(QVector<QPointF> path);
 private:
     double posX = 0, posY = 0;
     QLabel* label_x;

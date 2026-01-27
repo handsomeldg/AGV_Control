@@ -35,6 +35,24 @@ void Display_Area::setAGVPosition(double *x, double *y)
     m_pos.setY(*y);
     update();   // 触发重绘
 }
+void Display_Area::setPath(const QVector<QPointF>& path)   // ⭐ 新增
+{
+    m_path = path;
+    update();   // 触发重绘
+}
+// 画已经走过的线
+void Display_Area::setReachedIndex(int reachedIndex)
+{
+    m_reachedIndex = reachedIndex;
+    update();   // 触发重绘
+}
+
+// 画已经走过的线
+void Display_Area::visitPathIndex(QVector<QPointF> visitpath)
+{
+    m_visitpath = visitpath;
+    update();   // 触发重绘
+}
 
 void Display_Area::paintEvent(QPaintEvent* event)
 {
@@ -89,4 +107,23 @@ void Display_Area::paintEvent(QPaintEvent* event)
     painter.setPen(Qt::NoPen);
     painter.drawEllipse(screenPos, 8, 8);  // 半径 8px
 
+    painter.setPen(QPen(Qt::lightGray, 2));
+
+    for (int i = 1; i < m_path.size(); i++)
+    {
+        if (i <= m_reachedIndex)
+            ;
+            //painter.setPen(QPen(Qt::lightGray, 2));
+        else
+        { 
+            painter.setPen(QPen(Qt::green, 2));
+        painter.drawLine((m_path[i-1].x() * 10 + 5)* scaleX, (m_path[i - 1].y() * 10 + 5)* scaleY, (m_path[i].x() * 10 + 5)* scaleX, (m_path[i].y() * 10 + 5)* scaleY);
+        }
+    }
+
+    for (int i = 1; i < m_visitpath.size(); i++)
+    {
+        painter.setPen(QPen(Qt::lightGray, 2));
+        painter.drawLine((m_visitpath[i - 1].x()) * scaleX, (m_visitpath[i - 1].y()) * scaleY, (m_visitpath[i].x()) * scaleX, (m_visitpath[i].y()) * scaleY);
+    }
 }

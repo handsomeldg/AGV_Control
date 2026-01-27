@@ -1,4 +1,4 @@
-#include "AGV_Control.h"
+ï»¿#include "AGV_Control.h"
 #include <QtConcurrent/QtConcurrent>
 AGV_Control::AGV_Control(QWidget *parent)
     : QWidget(parent)
@@ -10,7 +10,7 @@ AGV_Control::AGV_Control(QWidget *parent)
     Signal();
 }
 
-// ³õÊ¼»¯º¯Êý
+// åˆå§‹åŒ–å‡½æ•°
 void AGV_Control::Init()
 {
     m_timer_position = new QTimer(this);
@@ -24,7 +24,7 @@ void AGV_Control::Init()
     btn_down = new QPushButton("down");
     btn_left = new QPushButton("left");
     btn_right = new QPushButton("right");
-    // Ê¹ÓÃÍø¸ñ²¼¾Ö£¨GridLayout£©
+    // ä½¿ç”¨ç½‘æ ¼å¸ƒå±€ï¼ˆGridLayoutï¼‰
     btn_layout = new QGridLayout();
     pos_layout = new QVBoxLayout();
     display_area = new Display_Area(this);
@@ -36,11 +36,12 @@ void AGV_Control::Init()
     m_controller = new Controller(display_area->getMaze(), this);
 }
 
-// ²¼¾Öº¯Êý
+
+// å¸ƒå±€å‡½æ•°
 void AGV_Control::Layout()
 {
-    // ÉèÖÃÄ¬ÈÏ´óÐ¡
-    QSize btnSize(40, 20);   // ¿í 40£¬¸ß 20
+    // è®¾ç½®é»˜è®¤å¤§å°
+    QSize btnSize(40, 20);   // å®½ 40ï¼Œé«˜ 20
     label_x->setAlignment(Qt::AlignRight);
     label_y->setAlignment(Qt::AlignRight);
 
@@ -57,11 +58,11 @@ void AGV_Control::Layout()
     btn_DFS->setFixedSize(btnSize);
     btn_BFS->setFixedSize(btnSize);
     btn_back->setFixedSize(btnSize);
-    // °´·½ÏòÅÅÁÐ£º
-    // (0,1) ÉÏ
-    // (1,0) ×ó  (1,1) ¿Õ¸ñ (1,2) ÓÒ
-    // (2,1) ÏÂ
-    // ====== ÓÒÉÏ½Ç²¼¾Ö ======
+    // æŒ‰æ–¹å‘æŽ’åˆ—ï¼š
+    // (0,1) ä¸Š
+    // (1,0) å·¦  (1,1) ç©ºæ ¼ (1,2) å³
+    // (2,1) ä¸‹
+    // ====== å³ä¸Šè§’å¸ƒå±€ ======
 
     pos_layout->addWidget(label_x);
     pos_layout->addWidget(label_y);
@@ -80,19 +81,19 @@ void AGV_Control::Layout()
     btn_layout->setVerticalSpacing(5);
     btn_layout->setContentsMargins(0, 0, 0, 0);
     
-    // --- °Ñ°´Å¥·Åµ½ÓÒÏÂ½Ç ---
+    // --- æŠŠæŒ‰é’®æ”¾åˆ°å³ä¸‹è§’ ---
     right_layout->addLayout(pos_layout);
-    right_layout->addStretch();       // ÖÐ¼ä¿Õ°×³Å¿ª
+    right_layout->addStretch();       // ä¸­é—´ç©ºç™½æ’‘å¼€
     right_layout->addLayout(btn_layout);
     right_layout->setAlignment(btn_layout, Qt::AlignRight | Qt::AlignBottom);
 
 
     display_area->setMinimumSize(400, 300);
 
-    // --- Ö÷²¼¾Ö£¬ÏÔÊ¾½çÃæ + ÓÒ±ß°´Å¥ ---
+    // --- ä¸»å¸ƒå±€ï¼Œæ˜¾ç¤ºç•Œé¢ + å³è¾¹æŒ‰é’® ---
     
-    main_layout->addWidget(display_area, 1); // displayArea Õ¼Âú´ó²¿·Ö
-    main_layout->addLayout(right_layout);    // °´Å¥·ÅÓÒÏÂ
+    main_layout->addWidget(display_area, 1); // displayArea å æ»¡å¤§éƒ¨åˆ†
+    main_layout->addLayout(right_layout);    // æŒ‰é’®æ”¾å³ä¸‹
     main_layout->setContentsMargins(10, 10, 10, 10);
 
     setLayout(main_layout);
@@ -101,26 +102,43 @@ void AGV_Control::Layout()
 }
 
 
-// ÐÅºÅ´¥·¢
+// ä¿¡å·è§¦å‘
 void AGV_Control::Signal()
 {
+    connect(m_controller, &Controller::reachedIndexChanged, display_area, &Display_Area::setReachedIndex);
+    connect(m_controller, &Controller::visitPathChanged, display_area, &Display_Area::visitPathIndex);
     connect(btn_back, &QPushButton::clicked, this, [=]() {
         auto maze = display_area->getMaze();
         m_controller->AGV_back(maze); 
+        QVector<QPointF> path;   // â­ ä¿å­˜è½¨è¿¹
+        emit pathReady(path);   // âœ… çº¿ç¨‹å®‰å…¨
+        display_area->setPath(path);
         });
     connect(btn_start, &QPushButton::clicked, this, [=]() {
-        QtConcurrent::run([=]() {
             display_area->generateMaze();
-            ;} );
-        auto maze = display_area->getMaze();
-        m_controller->AGV_back(maze); }
+            auto maze = display_area->getMaze();
+            m_controller->AGV_back(maze);
+            QVector<QPointF> path;   // â­ ä¿å­˜è½¨è¿¹
+            emit pathReady(path);   // âœ… çº¿ç¨‹å®‰å…¨
+            display_area->setPath(path);
+        }
         );
     connect(btn_BFS, &QPushButton::clicked, this, [=]() {
-        QtConcurrent::run([=]() {m_controller->BFS_find_shortest_path(); }
+        QtConcurrent::run([=]() {
+            auto path = m_controller->BFS_find_shortest_path(); 
+            emit pathReady(path);   // âœ… çº¿ç¨‹å®‰å…¨
+            display_area->setPath(path);
+            }
         ); }
     );
+    connect(this, &AGV_Control::pathReady, m_controller, &Controller::startMoveAlongPath,
+        Qt::QueuedConnection);
     connect(btn_DFS, &QPushButton::clicked, this, [=]() {
-        QtConcurrent::run([=]() {m_controller->DFS_find_shortest_path(); }
+        QtConcurrent::run([=]() {
+            auto path = m_controller->DFS_find_shortest_path();
+            emit pathReady(path);   // âœ… çº¿ç¨‹å®‰å…¨
+            display_area->setPath(path);
+            }
         ); }
     );
     connect(btn_up, &QPushButton::pressed,m_controller, &Controller::AGV_up);

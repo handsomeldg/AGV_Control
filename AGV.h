@@ -13,7 +13,7 @@ public:
     // 停止移动
     void stop();
     // 读取当前位置
-    QPointF position() const;
+    QPoint position() const;
     // 设置目标位置
     void setPosition(double x, double y);
     // 初始化小车（回原）
